@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.StateData;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -22,10 +23,11 @@ public class CSVParse {
             System.out.println("Date, Total Vaccinations, Total Distributed, People Vaccinated"
                     + ", People fully Vaccinated");
             ArrayList<String> dates = new ArrayList<>();
+            ArrayList<StateData> sd = new ArrayList<>();
             int i = 0;
             for(CSVRecord csvRecord : csvParser) {
                 String date = csvRecord.get("date");
-                String totalvac = csvRecord.get("total_vaccinations");
+                int totalvac = Integer.parseInt(csvRecord.get("total_vaccinations"));
                 String totaldist = csvRecord.get("total_distributed");
                 String peoplevac = csvRecord.get("people_vaccinated");
                 //String peoplefvac = csvRecord.get("people_fully_vaccinated");
