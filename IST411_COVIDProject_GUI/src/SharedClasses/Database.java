@@ -82,7 +82,7 @@ public class Database {
         Statement stmt = con.createStatement();
         
         stmt.execute("INSERT INTO CasesAndDeaths(Date, State, Cases, Deaths) "
-                   + "VALUES ('" + date + "'," + "'" + state + "'," + cases + deaths + ")");
+                   + "VALUES ('" + date + "'," + "'" + state + "'," + cases + "," + deaths + ")");
         
         stmt.close();
         con.close();
@@ -95,8 +95,8 @@ public class Database {
         Statement stmt = con.createStatement();
         
         stmt.execute("INSERT INTO VaccineInformation(Date, State, Cases, Deaths) "
-                   + "VALUES ('" + date + "'," + "'" + state + "'," + totalVac + 
-                              totalDis + peopleVac + peopleFullyVac + dailyVac + ")");
+                   + "VALUES ('" + date + "'," + "'" + state + "'," + totalVac + "," +
+                              totalDis + "," + peopleVac + "," + peopleFullyVac + "," + dailyVac + ")");
         
         stmt.close();
         con.close();
