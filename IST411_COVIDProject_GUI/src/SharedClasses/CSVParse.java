@@ -28,7 +28,7 @@ public class CSVParse {
         CSVFormat csvFormat = CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase();
 
         try(CSVParser csvParser = CSVParser.parse(url, StandardCharsets.UTF_8, csvFormat)) {
-            db.createVaccineTable();
+            db.createStateTable();
             
             for(CSVRecord csvRecord : csvParser) {
                 String date = csvRecord.get("date");
