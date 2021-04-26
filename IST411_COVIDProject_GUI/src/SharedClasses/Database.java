@@ -50,8 +50,7 @@ public class Database {
                          "(Date varchar(50)," +
                          "State varchar(50)," +
                          "Cases int," +
-                         "Deaths int," +
-                         "primary key (Date))");
+                         "Deaths int)");
                 
         stmt.close();
         con.close();
@@ -69,8 +68,7 @@ public class Database {
                          "Total_Distributed int," +
                          "People_Vaccinated int," +
                          "People_Fully_Vaccinated int," +
-                         "Daily_Vaccinated int," +
-                         "primary key (Date))");
+                         "Daily_Vaccinated int)");
                 
         stmt.close();
         con.close();
@@ -94,7 +92,8 @@ public class Database {
         Connection con = getConnection();
         Statement stmt = con.createStatement();
         
-        stmt.execute("INSERT INTO VaccineInformation(Date, State, Cases, Deaths) "
+        stmt.execute("INSERT INTO VaccineInformation(Date, State, Total_Vaccines, Total_Distributed,"
+                                                  + "People_Vaccinated, People_Fully_Vaccinated, Daily_Vaccinated) "
                    + "VALUES ('" + date + "'," + "'" + state + "'," + totalVac + "," +
                               totalDis + "," + peopleVac + "," + peopleFullyVac + "," + dailyVac + ")");
         
