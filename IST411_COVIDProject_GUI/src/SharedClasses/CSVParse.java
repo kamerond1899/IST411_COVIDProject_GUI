@@ -29,6 +29,7 @@ public class CSVParse {
 
         try(CSVParser csvParser = CSVParser.parse(url, StandardCharsets.UTF_8, csvFormat)) {
             db.createStateTable();
+            ArrayList<Dataset> sr = new ArrayList<>();
             
             for(CSVRecord csvRecord : csvParser) {
                 String date = csvRecord.get("date");
@@ -36,8 +37,11 @@ public class CSVParse {
                 String cases = csvRecord.get("cases");
                 String deaths = csvRecord.get("deaths");
                 
-                db.insertStateValues(date, state, Integer.parseInt(cases), Integer.parseInt(deaths));
+                sr.add(new Dataset(date,state,Integer.parseInt(cases),Integer.parseInt(deaths)));
+                
+                
             }
+            db.insertStateValues(sr);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,6 +55,7 @@ public class CSVParse {
 
         try(CSVParser csvParser = CSVParser.parse(url, StandardCharsets.UTF_8, csvFormat)) {
             db.createVaccineTable();
+             ArrayList<Dataset> vr = new ArrayList<>();
             
             for(CSVRecord csvRecord : csvParser) {
                 String date = csvRecord.get("date");
@@ -82,12 +87,13 @@ public class CSVParse {
                     dailyVac = String.valueOf(dV);
                 }
                 
-                db.insertVaccineValues(date, state, (int) FloatingDecimal.parseDouble(totalVac), 
-                                                    (int) FloatingDecimal.parseDouble(totalDis), 
-                                                    (int) FloatingDecimal.parseDouble(peopleVac), 
+                vr.add(new Dataset(date,state,(int) FloatingDecimal.parseDouble(totalVac),(int) FloatingDecimal.parseDouble(totalDis),  (int) FloatingDecimal.parseDouble(peopleVac), 
                                                     (int) FloatingDecimal.parseDouble(peopleFullyVac), 
-                                                    (int) FloatingDecimal.parseDouble(dailyVac));
+                                                    (int) FloatingDecimal.parseDouble(dailyVac)));
+                
+                
             }
+            db.insertVaccineValues(vr);
         } catch (IOException e) {
             e.printStackTrace();
         }
