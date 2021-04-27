@@ -52,7 +52,6 @@ public class DataFrame extends javax.swing.JFrame {
         tablePanel = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         scrollPane = new javax.swing.JScrollPane();
-        jScrollPane4 = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -195,11 +194,8 @@ public class DataFrame extends javax.swing.JFrame {
             }
         ));
         dataTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        dataTable.setAutoscrolls(false);
         dataTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane4.setViewportView(dataTable);
-
-        scrollPane.setViewportView(jScrollPane4);
+        scrollPane.setViewportView(dataTable);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -212,7 +208,7 @@ public class DataFrame extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
                 .addContainerGap())
@@ -285,10 +281,9 @@ public class DataFrame extends javax.swing.JFrame {
             monthCombo.addItem("April, 2021");
             //jComboBox3.addItem("May, 2021");
         } else if ("Monthly Trends".equals(String.valueOf(tableTypeCombo.getSelectedItem()))) {
-            monthCombo.addItem("January, 2021");
-            monthCombo.addItem("February, 2021");
-            monthCombo.addItem("March, 2021");
-            monthCombo.addItem("April, 2021");
+            monthCombo.addItem("January-February, 2021");
+            monthCombo.addItem("February-March, 2021");
+            monthCombo.addItem("March-April, 2021");
         }
     }//GEN-LAST:event_tableTypeComboActionPerformed
 
@@ -302,6 +297,7 @@ public class DataFrame extends javax.swing.JFrame {
             
             int tableColumnsSize = 0;
             
+            System.out.println("test");
             if (tableRows.get(0).getConstructorFlag() == 1) {
                 tableColumnsSize = 0;
             } else if (tableRows.get(0).getConstructorFlag() == 2) {
@@ -376,7 +372,7 @@ public class DataFrame extends javax.swing.JFrame {
             
             dataTable.setRowHeight(50);
             for(int i = 0; i < tableColumnsSize; i++){
-                dataTable.getColumnModel().getColumn(i).setPreferredWidth(200);
+                dataTable.getColumnModel().getColumn(i).setPreferredWidth(100);
             }
             
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -397,7 +393,6 @@ public class DataFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JComboBox<String> monthCombo;
     private javax.swing.JLabel monthLabel;
