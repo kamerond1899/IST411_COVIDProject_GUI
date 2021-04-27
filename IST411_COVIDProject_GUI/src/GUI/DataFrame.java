@@ -5,6 +5,14 @@
  */
 package GUI;
 
+import SharedClasses.Database;
+import SharedClasses.Dataset;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableCellRenderer;
+
 /**
  *
  * @author RIVER
@@ -16,6 +24,7 @@ public class DataFrame extends javax.swing.JFrame {
      */
     public DataFrame() {
         initComponents();
+        setVisible(true);
     }
 
     /**
@@ -27,62 +36,377 @@ public class DataFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        comboPanel = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        tableTypeLabel = new javax.swing.JLabel();
+        monthLabel = new javax.swing.JLabel();
+        stateLabel = new javax.swing.JLabel();
+        updateButton = new javax.swing.JButton();
+        tableTypeCombo = new javax.swing.JComboBox<>();
+        stateCombo = new javax.swing.JComboBox<>();
+        monthCombo = new javax.swing.JComboBox<>();
+        tablePanel = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        scrollPane = new javax.swing.JScrollPane();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        dataTable = new javax.swing.JTable();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 0, 0));
 
-        jPanel1.setBackground(new java.awt.Color(255, 51, 51));
+        jPanel3.setBackground(new java.awt.Color(0, 102, 0));
+        jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(102, 255, 102)));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        comboPanel.setBackground(new java.awt.Color(0, 204, 0));
+        comboPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        comboPanel.setForeground(new java.awt.Color(255, 255, 255));
+
+        jPanel5.setBackground(new java.awt.Color(0, 204, 0));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filters:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(102, 255, 102))); // NOI18N
+
+        tableTypeLabel.setBackground(new java.awt.Color(255, 255, 255));
+        tableTypeLabel.setText("Table Type:");
+
+        monthLabel.setBackground(new java.awt.Color(255, 255, 255));
+        monthLabel.setText("Month:");
+
+        stateLabel.setBackground(new java.awt.Color(255, 255, 255));
+        stateLabel.setText("State:");
+
+        updateButton.setBackground(new java.awt.Color(0, 102, 0));
+        updateButton.setForeground(new java.awt.Color(255, 255, 255));
+        updateButton.setText("Go");
+        updateButton.setFocusable(false);
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
+        tableTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Monthly Cases And Deaths", "Monthly Vaccine Information", "Monthly Trends" }));
+        tableTypeCombo.setFocusable(false);
+        tableTypeCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tableTypeComboActionPerformed(evt);
+            }
+        });
+
+        stateCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming" }));
+        stateCombo.setFocusable(false);
+
+        monthCombo.setFocusable(false);
+        monthCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                monthComboActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(tableTypeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tableTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(monthLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(monthCombo, 0, 161, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(stateLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stateCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 103, Short.MAX_VALUE)
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updateButton)
+                    .addComponent(stateLabel)
+                    .addComponent(monthLabel)
+                    .addComponent(tableTypeLabel)
+                    .addComponent(tableTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stateCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(monthCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(0, 0, 255));
+        javax.swing.GroupLayout comboPanelLayout = new javax.swing.GroupLayout(comboPanel);
+        comboPanel.setLayout(comboPanelLayout);
+        comboPanelLayout.setHorizontalGroup(
+            comboPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(comboPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        comboPanelLayout.setVerticalGroup(
+            comboPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, comboPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(396, 396, 396))
+        );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 780, Short.MAX_VALUE)
+        jPanel3.add(comboPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 840, 120));
+
+        tablePanel.setBackground(new java.awt.Color(51, 153, 0));
+        tablePanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jPanel4.setBackground(new java.awt.Color(51, 153, 0));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(102, 255, 102))); // NOI18N
+
+        scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        dataTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        dataTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        dataTable.setAutoscrolls(false);
+        dataTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(dataTable);
+
+        scrollPane.setViewportView(jScrollPane4);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 427, Short.MAX_VALUE)
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                .addContainerGap())
         );
+
+        javax.swing.GroupLayout tablePanelLayout = new javax.swing.GroupLayout(tablePanel);
+        tablePanel.setLayout(tablePanelLayout);
+        tablePanelLayout.setHorizontalGroup(
+            tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        tablePanelLayout.setVerticalGroup(
+            tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel3.add(tablePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 127, 840, 470));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 865, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void monthComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_monthComboActionPerformed
+
+    private void tableTypeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableTypeComboActionPerformed
+        monthCombo.removeAllItems();
+        if ("Monthly Cases And Deaths".equals(String.valueOf(tableTypeCombo.getSelectedItem()))){
+            monthCombo.addItem("January, 2020");
+            monthCombo.addItem("February, 2020");
+            monthCombo.addItem("March, 2020");
+            monthCombo.addItem("April, 2020");
+            monthCombo.addItem("May, 2020");
+            monthCombo.addItem("June, 2020");
+            monthCombo.addItem("July, 2020");
+            monthCombo.addItem("August, 2020");
+            monthCombo.addItem("Septemer, 2020");
+            monthCombo.addItem("October, 2020");
+            monthCombo.addItem("November, 2020");
+            monthCombo.addItem("December, 2020");
+            monthCombo.addItem("January, 2021");
+            monthCombo.addItem("February, 2021");
+            monthCombo.addItem("March, 2021");
+            monthCombo.addItem("April, 2021");
+        } else if ("Monthly Vaccine Information".equals(String.valueOf(tableTypeCombo.getSelectedItem()))) {
+            monthCombo.addItem("January, 2021");
+            monthCombo.addItem("February, 2021");
+            monthCombo.addItem("March, 2021");
+            monthCombo.addItem("April, 2021");
+            //jComboBox3.addItem("May, 2021");
+        } else if ("Monthly Trends".equals(String.valueOf(tableTypeCombo.getSelectedItem()))) {
+            monthCombo.addItem("January, 2021");
+            monthCombo.addItem("February, 2021");
+            monthCombo.addItem("March, 2021");
+            monthCombo.addItem("April, 2021");
+        }
+    }//GEN-LAST:event_tableTypeComboActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        Database db = new Database();
+        try {
+            ArrayList<Dataset> tableRows = new ArrayList<Dataset>();
+            tableRows = db.selectData(String.valueOf(tableTypeCombo.getSelectedItem())
+                                     ,String.valueOf(monthCombo.getSelectedItem())
+                                     ,String.valueOf(stateCombo.getSelectedItem()));
+            
+            int tableColumnsSize = 0;
+            
+            if (tableRows.get(0).getConstructorFlag() == 1) {
+                tableColumnsSize = 0;
+            } else if (tableRows.get(0).getConstructorFlag() == 2) {
+                tableColumnsSize = 4;
+            } else if (tableRows.get(0).getConstructorFlag() == 3) {
+                tableColumnsSize = 7;
+            } else if (tableRows.get(0).getConstructorFlag() == 4) {
+                tableColumnsSize = 8;
+            }
+            
+            Object[][] tableRowsObj = new Object[tableRows.size()][tableColumnsSize];
+            String[] columnNames = new String[tableColumnsSize];
+            
+            if (tableColumnsSize == 4) {
+                for (int i = 0; i < tableRows.size(); i++){
+                    tableRowsObj[i][0] = tableRows.get(i).getDate();
+                    tableRowsObj[i][1] = tableRows.get(i).getState();
+                    tableRowsObj[i][2] = tableRows.get(i).getCases();
+                    tableRowsObj[i][3] = tableRows.get(i).getDeaths();
+                }
+                columnNames[0] = "Date";
+                columnNames[1] = "State";
+                columnNames[2] = "Cases";
+                columnNames[3] = "Deaths";
+                
+            } else if (tableColumnsSize == 7) {
+                for (int i = 0; i < tableRows.size(); i++){
+                    tableRowsObj[i][0] = tableRows.get(i).getDate();
+                    tableRowsObj[i][1] = tableRows.get(i).getState();
+                    tableRowsObj[i][2] = tableRows.get(i).getTotalVac();
+                    tableRowsObj[i][3] = tableRows.get(i).getTotalDis();
+                    tableRowsObj[i][4] = tableRows.get(i).getPeopleVac();
+                    tableRowsObj[i][5] = tableRows.get(i).getPeopleFullyVac();
+                    tableRowsObj[i][6] = tableRows.get(i).getDailyVac();
+                }
+                columnNames[0] = "Date";
+                columnNames[1] = "State";
+                columnNames[2] = "Total Vaccines";
+                columnNames[3] = "Total Distributed";
+                columnNames[4] = "People Vaccinated";
+                columnNames[5] = "People Fully Vaccinated";
+                columnNames[6] = "Daily Vaccinated";
+                
+            } else if (tableColumnsSize == 8) {
+                for (int i = 0; i < tableRows.size(); i++){
+                    tableRowsObj[i][0] = tableRows.get(i).getState();
+                    tableRowsObj[i][1] = tableRows.get(i).getCases();
+                    tableRowsObj[i][2] = tableRows.get(i).getDeaths();
+                    tableRowsObj[i][3] = tableRows.get(i).getTotalVac();
+                    tableRowsObj[i][4] = tableRows.get(i).getTotalDis();
+                    tableRowsObj[i][5] = tableRows.get(i).getPeopleVac();
+                    tableRowsObj[i][6] = tableRows.get(i).getPeopleFullyVac();
+                    tableRowsObj[i][7] = tableRows.get(i).getDailyVac();
+                }
+                columnNames[0] = "State";
+                columnNames[1] = "Cases";
+                columnNames[2] = "Deaths";
+                columnNames[3] = "Total Vaccines";
+                columnNames[4] = "Total Distributed";
+                columnNames[5] = "People Vaccinated";
+                columnNames[6] = "People Fully Vaccinated";
+                columnNames[7] = "Daily Vaccinated";
+            }
+           
+            DataTableModel tableModel = new DataTableModel(columnNames, tableRowsObj){
+                @Override
+                public boolean isCellEditable(int row, int column){
+                    return false;
+                }
+            };
+            dataTable.setModel(tableModel);
+            
+            dataTable.setRowHeight(50);
+            for(int i = 0; i < tableColumnsSize; i++){
+                dataTable.getColumnModel().getColumn(i).setPreferredWidth(200);
+            }
+            
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            dataTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+            dataTable.setDefaultRenderer(String.class, centerRenderer);
+            dataTable.setDefaultRenderer(Integer.class, centerRenderer);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DataFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_updateButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel comboPanel;
+    private javax.swing.JTable dataTable;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JComboBox<String> monthCombo;
+    private javax.swing.JLabel monthLabel;
+    private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JComboBox<String> stateCombo;
+    private javax.swing.JLabel stateLabel;
+    private javax.swing.JPanel tablePanel;
+    private javax.swing.JComboBox<String> tableTypeCombo;
+    private javax.swing.JLabel tableTypeLabel;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }
