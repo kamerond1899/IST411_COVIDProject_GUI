@@ -19,7 +19,7 @@ public class App {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws MalformedURLException, SQLException {
-        CSVParse parseDataIntoDatabase = new CSVParse();
+        //CSVParse parseDataIntoDatabase = new CSVParse();
         DataFrame dataFrame = new DataFrame();
         //River was here
     }
