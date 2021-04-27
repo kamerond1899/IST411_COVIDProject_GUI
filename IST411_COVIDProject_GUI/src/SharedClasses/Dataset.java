@@ -22,8 +22,10 @@ public class Dataset implements Serializable{
     private int peopleVac;
     private int peopleFullyVac;
     private int dailyVac;
+    private int constructorFlag;
     
     public Dataset(){ //zero argument constructor
+        this.constructorFlag = 1;
         this.state = null;
         this.cases = 0;
         this.deaths = 0;
@@ -35,6 +37,7 @@ public class Dataset implements Serializable{
     }
     
     public Dataset(String da, String st, int c, int de){ //State constructor
+        this.constructorFlag = 2;
         this.date = da;
         this.state = st;
         this.cases = c;
@@ -42,6 +45,7 @@ public class Dataset implements Serializable{
     }
     
     public Dataset(String da, String st, int tV, int tD, int pV, int pFV, int dV){ //Vaccine constructor
+        this.constructorFlag = 3;
         this.date = da;
         this.state = st;
         this.totalVac = tV;
@@ -52,6 +56,7 @@ public class Dataset implements Serializable{
     }
     
     public Dataset(String st, int c, int de, int tV, int tD, int pV, int pFV, int dV){ //Trends Constructor
+        this.constructorFlag = 4;
         this.state = st;
         this.cases = c;
         this.deaths = de;
@@ -186,5 +191,19 @@ public class Dataset implements Serializable{
      */
     public void setDailyVac(int dailyVac) {
         this.dailyVac = dailyVac;
+    }
+
+    /**
+     * @return the constructorFlag
+     */
+    public int getConstructorFlag() {
+        return constructorFlag;
+    }
+
+    /**
+     * @param constructorFlag the constructorFlag to set
+     */
+    public void setConstructorFlag(int constructorFlag) {
+        this.constructorFlag = constructorFlag;
     }
 }
