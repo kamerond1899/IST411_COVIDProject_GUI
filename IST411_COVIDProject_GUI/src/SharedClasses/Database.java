@@ -119,8 +119,8 @@ public class Database {
         ResultSet rs;
         
         ArrayList<Dataset> datasetArray = new ArrayList<>();
-        
-        if (tableType.equals("Monthly Cases and Deaths")){ //if State Table is used
+        System.out.println(tableType);
+        if (tableType.equals("Monthly Cases And Deaths")){ //if State Table is used
             switch (month) {
                 case "January, 2020": month = "2020-01"; break;
                 case "February, 2020": month = "2020-02"; break;
@@ -141,7 +141,9 @@ public class Database {
                 default: break;
             }
             
-            rs = stmt.executeQuery("SELECT Date, State, Cases, Deaths FROM CasesAndDeaths WHERE Date LIKE '"+month+"%' AND State = '"+state+"'");
+            String query = "SELECT Date, State, Cases, Deaths FROM CasesAndDeaths WHERE Date LIKE '"+month+"%' AND State = '"+state+"'";
+            System.out.println(query);
+            rs = stmt.executeQuery(query);
             
             Dataset staterow;
             while(rs.next()) {
@@ -163,7 +165,9 @@ public class Database {
                 //case "May, 2021": month = "2021-05"; break;
             }
             
-            rs = stmt.executeQuery("SELECT Date, State, Total_Vaccines, Total_Distributed, People_Vaccinated, People_Fully_Vaccinated, Daily_Vaccinated FROM VaccineInformation WHERE Date LIKE '"+month+"%' AND State = '"+state+"'");
+            String query = "SELECT Date, State, Total_Vaccines, Total_Distributed, People_Vaccinated, People_Fully_Vaccinated, Daily_Vaccinated FROM VaccineInformation WHERE Date LIKE '"+month+"%' AND State = '"+state+"'";
+            System.out.println(query);
+            rs = stmt.executeQuery(query);
             
             Dataset vacrow;
             while(rs.next()) {
@@ -187,7 +191,9 @@ public class Database {
                 case "March-April, 2021": month1 = "2021-03"; month2 = "2021-04";break;
             }
             
-            rs = stmt.executeQuery("SELECT CasesAndDeaths.State, CasesAndDeaths.Cases, CasesAndDeaths.Deaths, VaccineInformation.Total_Vaccines, VaccineInformation.Total_Distributed, VaccineInformation.People_Vaccinated, VaccineInformation.People_Fully_Vaccinated, VaccineInformation.Daily_Vaccinated FROM CasesAndDeaths JOIN VaccineInformation ON CasesAndDeaths.Date = VaccineInformation.Date WHERE CasesAndDeaths.Date LIKE '"+month1+"%' AND CasesAndDeaths.State = '"+state+"'");
+            String query1 = "SELECT CasesAndDeaths.State, CasesAndDeaths.Cases, CasesAndDeaths.Deaths, VaccineInformation.Total_Vaccines, VaccineInformation.Total_Distributed, VaccineInformation.People_Vaccinated, VaccineInformation.People_Fully_Vaccinated, VaccineInformation.Daily_Vaccinated FROM CasesAndDeaths JOIN VaccineInformation ON CasesAndDeaths.Date = VaccineInformation.Date WHERE CasesAndDeaths.Date LIKE '"+month1+"%' AND CasesAndDeaths.State = '"+state+"'";
+            System.out.println(query1);
+            rs = stmt.executeQuery(query1);
             
             ArrayList<Dataset> month1Array = new ArrayList<Dataset>();
             Dataset month1row;
@@ -205,7 +211,9 @@ public class Database {
                 month1Array.add(month1row);
             }
             
-            rs = stmt.executeQuery("SELECT CasesAndDeaths.State, CasesAndDeaths.Cases, CasesAndDeaths.Deaths, VaccineInformation.Total_Vaccines, VaccineInformation.Total_Distributed, VaccineInformation.People_Vaccinated, VaccineInformation.People_Fully_Vaccinated, VaccineInformation.Daily_Vaccinated FROM CasesAndDeaths JOIN VaccineInformation ON CasesAndDeaths.Date = VaccineInformation.Date WHERE CasesAndDeaths.Date LIKE '"+month2+"%' AND CasesAndDeaths.State = '"+state+"'");
+            String query2 = "SELECT CasesAndDeaths.State, CasesAndDeaths.Cases, CasesAndDeaths.Deaths, VaccineInformation.Total_Vaccines, VaccineInformation.Total_Distributed, VaccineInformation.People_Vaccinated, VaccineInformation.People_Fully_Vaccinated, VaccineInformation.Daily_Vaccinated FROM CasesAndDeaths JOIN VaccineInformation ON CasesAndDeaths.Date = VaccineInformation.Date WHERE CasesAndDeaths.Date LIKE '"+month2+"%' AND CasesAndDeaths.State = '"+state+"'";
+            System.out.println(query2);
+            rs = stmt.executeQuery(query2);
             
             ArrayList<Dataset> month2Array = new ArrayList<Dataset>();
             Dataset month2row;
