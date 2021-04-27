@@ -7,6 +7,7 @@ package SharedClasses;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -74,30 +75,58 @@ public class Database {
         con.close();
     }
     
-    public void insertStateValues(String date, String state, int cases, int deaths) throws SQLException {
+        public void insertStateValues(ArrayList<Dataset> s) throws SQLException {
         
         Connection con = getConnection();
-        Statement stmt = con.createStatement();
+              con.setAutoCommit(true);
+        //Statement stmt = con.createStatement();
+        PreparedStatement statement;
         
-        stmt.execute("INSERT INTO CasesAndDeaths(Date, State, Cases, Deaths) "
-                   + "VALUES ('" + date + "'," + "'" + state + "'," + cases + "," + deaths + ")");
+        String compiledQuery = "INSERT INTO CasesAndDeaths(Date, State, Cases, Deaths) "
+                   + "VALUES"+"(?, ?, ?, ?)";
         
-        stmt.close();
+                statement = con.prepareStatement(compiledQuery);
+        for(int i = 0; i < s.size(); i++)
+        {
+            statement.setString(1, s.get(i).getDate());
+            statement.setString(2, s.get(i).getState());
+            statement.setInt(3,  s.get(i).getCases());
+            statement.setInt(4,  s.get(i).getDeaths());
+            
+            statement.executeUpdate();
+        }
+          
+        statement.close();
         con.close();
     }
     
-    public void insertVaccineValues(String date, String state, int totalVac, 
-            int totalDis, int peopleVac, int peopleFullyVac, int dailyVac) throws SQLException {
+    public void insertVaccineValues(ArrayList<Dataset> v) throws SQLException {
         
+         
         Connection con = getConnection();
-        Statement stmt = con.createStatement();
+              con.setAutoCommit(true);
+        //Statement stmt = con.createStatement();
+        PreparedStatement statement;
         
-        stmt.execute("INSERT INTO VaccineInformation(Date, State, Total_Vaccines, Total_Distributed,"
-                                                  + "People_Vaccinated, People_Fully_Vaccinated, Daily_Vaccinated) "
-                   + "VALUES ('" + date + "'," + "'" + state + "'," + totalVac + "," +
-                              totalDis + "," + peopleVac + "," + peopleFullyVac + "," + dailyVac + ")");
+        String compiledQuery = "INSERT INTO VaccineInformation(Date, State, Total_Vaccines, Total_Distributed ,People_Vaccinated, People_Fully_Vaccinated, Daily_Vaccinated)"
+                   + " VALUES" + "(?, ?, ?, ?, ?, ?, ?)";
         
-        stmt.close();
+                statement = con.prepareStatement(compiledQuery);
+        for(int i = 0; i < v.size(); i++)
+        {
+            statement.setString(1, v.get(i).getDate());
+            statement.setString(2, v.get(i).getState());
+            statement.setInt(3, v.get(i).getTotalVac());
+            statement.setInt(4, v.get(i).getTotalDis());
+            statement.setInt(5, v.get(i).getPeopleVac());
+            statement.setInt(6, v.get(i).getPeopleFullyVac());
+            statement.setInt(7, v.get(i).getDailyVac());
+            
+            statement.executeUpdate();
+        }
+        
+        
+        statement.close();
         con.close();
     }
     
