@@ -124,19 +124,19 @@ public class DataFrame extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(18, 18, 18)
                 .addComponent(tableTypeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tableTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(monthLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(monthCombo, 0, 161, Short.MAX_VALUE)
+                .addComponent(monthCombo, 0, 181, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(stateLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stateCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
                 .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
@@ -401,7 +401,7 @@ public class DataFrame extends javax.swing.JFrame {
             
             dataTable.setRowHeight(50);
             for(int i = 0; i < tableColumnsSize; i++){
-                dataTable.getColumnModel().getColumn(i).setPreferredWidth(100);
+                dataTable.getColumnModel().getColumn(i).setPreferredWidth(150);
             }
             
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
