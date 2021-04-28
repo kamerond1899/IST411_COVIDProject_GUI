@@ -14,58 +14,46 @@ import java.util.ArrayList;
 public class TrendsDataCalculator {
     public static ArrayList<Dataset> calculateTrendsData(ArrayList<Dataset> selectedMonth, ArrayList<Dataset> previousMonth){
         
-        int casesSum1 = 0; int casesSum2 = 0;
-        int deathsSum1 = 0; int deathsSum2 = 0;
-        int totalVacSum1 = 0; int totalVacSum2 = 0;
-        int totalDisSum1 = 0; int totalDisSum2 = 0;
-        int peopleVacSum1 = 0; int peopleVacSum2 = 0;
-        int peopleFVacSum1 = 0; int peopleFVacSum2 = 0;
-        int dailyVacSum1 = 0; int dailyVacSum2 = 0;
-        
+        int month1CasesTrend = selectedMonth.get(selectedMonth.size()-1).getCases() - selectedMonth.get(0).getCases();
+        int month1DeathsTrend = selectedMonth.get(selectedMonth.size()-1).getDeaths() - selectedMonth.get(0).getDeaths();
+        int month1TVTrend = selectedMonth.get(selectedMonth.size()-1).getTotalVac() - selectedMonth.get(0).getTotalVac();
+        int month1TDTrend = selectedMonth.get(selectedMonth.size()-1).getTotalDis() - selectedMonth.get(0).getTotalDis();
+        int month1PFTrend = selectedMonth.get(selectedMonth.size()-1).getPeopleVac() - selectedMonth.get(0).getPeopleVac();
+        int month1PFVTrend = selectedMonth.get(selectedMonth.size()-1).getPeopleFullyVac() - selectedMonth.get(0).getPeopleFullyVac();
+        int month1DVSum = 0;
         for (int i = 0; i < selectedMonth.size(); i++){
-            casesSum1 = casesSum1 + selectedMonth.get(i).getCases();
-            deathsSum1 = deathsSum1 + selectedMonth.get(i).getDeaths();
-            totalVacSum1 = totalVacSum1 + selectedMonth.get(i).getTotalVac();
-            totalDisSum1 = totalDisSum1 + selectedMonth.get(i).getTotalDis();
-            peopleVacSum1 = peopleVacSum1 + selectedMonth.get(i).getPeopleVac();
-            peopleFVacSum1 = peopleFVacSum1 + selectedMonth.get(i).getPeopleFullyVac();
-            dailyVacSum1 = dailyVacSum1 + selectedMonth.get(i).getDailyVac();
+            month1DVSum = month1DVSum + selectedMonth.get(i).getDailyVac();
         }
+        int month1DVTrend = Math.round(month1DVSum / selectedMonth.size());
         
+        int month2CasesTrend = previousMonth.get(previousMonth.size()-1).getCases() - previousMonth.get(0).getCases();
+        int month2DeathsTrend = previousMonth.get(previousMonth.size()-1).getDeaths() - previousMonth.get(0).getDeaths();
+        int month2TVTrend = previousMonth.get(previousMonth.size()-1).getTotalVac() - previousMonth.get(0).getTotalVac();
+        int month2TDTrend = previousMonth.get(previousMonth.size()-1).getTotalDis() - previousMonth.get(0).getTotalDis();
+        int month2PFTrend = previousMonth.get(previousMonth.size()-1).getPeopleVac() - previousMonth.get(0).getPeopleVac();
+        int month2PFVTrend = previousMonth.get(previousMonth.size()-1).getPeopleFullyVac() - previousMonth.get(0).getPeopleFullyVac();
+        int month2DVSum = 0;
         for (int i = 0; i < previousMonth.size(); i++){
-            casesSum2 = casesSum2 + previousMonth.get(i).getCases();
-            deathsSum2 = deathsSum2 + previousMonth.get(i).getDeaths();
-            totalVacSum2 = totalVacSum2 + previousMonth.get(i).getTotalVac();
-            totalDisSum2 = totalDisSum2 + previousMonth.get(i).getTotalDis();
-            peopleVacSum2 = peopleVacSum2 + previousMonth.get(i).getPeopleVac();
-            peopleFVacSum2 = peopleFVacSum2 + previousMonth.get(i).getPeopleFullyVac();
-            dailyVacSum2 = dailyVacSum2 + previousMonth.get(i).getDailyVac();
+            month2DVSum = month2DVSum + previousMonth.get(i).getDailyVac();
         }
+        int month2DVTrend = Math.round(month2DVSum / previousMonth.size());
         
-        int casesSumDiff = 0;
-        int deathsSumDiff = 0;
-        int totalVacSumDiff = 0;
-        int totalDisSumDiff = 0;
-        int peopleVacSumDiff = 0;
-        int peopleFVacSumDiff = 0;
-        int dailyVacSumDiff = 0;
-        
-        casesSumDiff = casesSum2 - casesSum1;
-        deathsSumDiff = deathsSum2 - deathsSum1;
-        totalVacSumDiff = totalVacSum2 - totalVacSum1;
-        totalDisSumDiff = totalDisSum2 - totalDisSum1;
-        peopleVacSumDiff = peopleVacSum2 - peopleVacSum1;
-        peopleFVacSumDiff = peopleFVacSum2 - peopleFVacSum1;
-        dailyVacSumDiff = dailyVacSum2 - dailyVacSum1;
+        int casesTrend = month2CasesTrend - month1CasesTrend;
+        int deathsTrend = month2DeathsTrend - month1DeathsTrend;
+        int totalVacTrend = month2TVTrend - month1TVTrend;
+        int totalDisTrend = month2TDTrend - month1TDTrend;
+        int peopleVacTrend = month2PFTrend - month1PFTrend;
+        int peopleFVacTrend = month2PFVTrend - month1PFVTrend;
+        int dailyVacTrend = month2DVTrend - month1DVTrend;
         
         Dataset trends = new Dataset(selectedMonth.get(0).getState(), 
-                                    casesSumDiff, 
-                                    deathsSumDiff, 
-                                    totalVacSumDiff, 
-                                    totalDisSumDiff,
-                                    peopleVacSumDiff,
-                                    peopleFVacSumDiff,
-                                    dailyVacSumDiff);
+                                    casesTrend, 
+                                    deathsTrend, 
+                                    totalVacTrend, 
+                                    totalDisTrend,
+                                    peopleVacTrend,
+                                    peopleFVacTrend,
+                                    dailyVacTrend);
         
         ArrayList<Dataset> trendsData = new ArrayList<Dataset>();
         trendsData.add(trends);
