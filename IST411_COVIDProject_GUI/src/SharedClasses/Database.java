@@ -184,7 +184,7 @@ public class Database {
                 datasetArray.add(staterow);
             }
             
-        }  
+        }  //end "Monthly Cases And Deaths" if
         if (tableType == "Monthly Vaccine Information"){ //if Vaccine Table is used
             switch (month) {
                 case "January, 2021": month = "2021-01"; break;
@@ -210,7 +210,7 @@ public class Database {
                 rs.getInt("Daily_Vaccinated"));
                 datasetArray.add(vacrow);
             }
-        }    
+        } //end "Monthly Vaccine Information" if
         if (tableType == "Monthly Trends"){ //if Trends Table is used
             String month1 = "";
             String month2 = "";
@@ -220,48 +220,130 @@ public class Database {
                 case "March-April, 2021": month1 = "2021-03"; month2 = "2021-04";break;
             }
             
-            String query1 = "SELECT CasesAndDeaths.State, CasesAndDeaths.Cases, CasesAndDeaths.Deaths, VaccineInformation.Total_Vaccines, VaccineInformation.Total_Distributed, VaccineInformation.People_Vaccinated, VaccineInformation.People_Fully_Vaccinated, VaccineInformation.Daily_Vaccinated FROM CasesAndDeaths JOIN VaccineInformation ON CasesAndDeaths.Date = VaccineInformation.Date WHERE CasesAndDeaths.Date LIKE '"+month1+"%' AND CasesAndDeaths.State = '"+state+"'";
-            System.out.println(query1);
-            rs = stmt.executeQuery(query1);
-            
-            ArrayList<Dataset> month1Array = new ArrayList<Dataset>();
-            Dataset month1row;
+            String month1CaDQuery = "SELECT CasesAndDeaths.Cases, CasesAndDeaths.Deaths FROM CasesAndDeaths WHERE CasesAndDeaths.Date LIKE '"+month1+"%' AND CasesAndDeaths.State = '"+state+"'";
+            System.out.println(month1CaDQuery);
+            rs = stmt.executeQuery(month1CaDQuery);
+            ArrayList<Integer> month1CasesRow = new ArrayList<>();
+            ArrayList<Integer> month1DeathsRow = new ArrayList<>();
+            int month1cases = 0; int month1deaths = 0;
             while(rs.next()){
-                month1row = new Dataset(
-                    rs.getString("State"),
-                    rs.getInt("Cases"),
-                    rs.getInt("Deaths"),
-                    rs.getInt("Total_Vaccines"),
-                    rs.getInt("Total_Distributed"),
-                    rs.getInt("People_Vaccinated"),
-                    rs.getInt("People_Fully_Vaccinated"),
-                    rs.getInt("Daily_Vaccinated")
-                );
-                month1Array.add(month1row);
+                month1cases = rs.getInt("Cases");
+                month1CasesRow.add(month1cases);
+                month1deaths = rs.getInt("Deaths");
+                month1DeathsRow.add(month1deaths);
+                System.out.println(month1cases + " " + month1deaths);
             }
             
-            String query2 = "SELECT CasesAndDeaths.State, CasesAndDeaths.Cases, CasesAndDeaths.Deaths, VaccineInformation.Total_Vaccines, VaccineInformation.Total_Distributed, VaccineInformation.People_Vaccinated, VaccineInformation.People_Fully_Vaccinated, VaccineInformation.Daily_Vaccinated FROM CasesAndDeaths JOIN VaccineInformation ON CasesAndDeaths.Date = VaccineInformation.Date WHERE CasesAndDeaths.Date LIKE '"+month2+"%' AND CasesAndDeaths.State = '"+state+"'";
-            System.out.println(query2);
-            rs = stmt.executeQuery(query2);
-            
-            ArrayList<Dataset> month2Array = new ArrayList<Dataset>();
-            Dataset month2row;
+            String month1VacQuery = "SELECT VaccineInformation.Total_Vaccines, VaccineInformation.Total_Distributed, VaccineInformation.People_Vaccinated, VaccineInformation.People_Fully_Vaccinated, VaccineInformation.Daily_Vaccinated FROM VaccineInformation WHERE VaccineInformation.Date LIKE '"+month1+"%' AND VaccineInformation.State = '"+state+"'";
+            System.out.println(month1VacQuery);
+            rs = stmt.executeQuery(month1VacQuery);
+            ArrayList<Integer> month1TVRow = new ArrayList<>();
+            ArrayList<Integer> month1TDRow = new ArrayList<>();
+            ArrayList<Integer> month1PVRow = new ArrayList<>();
+            ArrayList<Integer> month1PFVRow = new ArrayList<>();
+            ArrayList<Integer> month1DVRow = new ArrayList<>();
+            int month1TV = 0; int month1TD = 0;
+            int month1PV = 0; int month1PFV = 0;
+            int month1DV = 0;
             while(rs.next()){
-                month2row = new Dataset(
-                    rs.getString("State"),
-                    rs.getInt("Cases"),
-                    rs.getInt("Deaths"),
-                    rs.getInt("Total_Vaccines"),
-                    rs.getInt("Total_Distributed"),
-                    rs.getInt("People_Vaccinated"),
-                    rs.getInt("People_Fully_Vaccinated"),
-                    rs.getInt("Daily_Vaccinated")
-                );
-                month2Array.add(month2row);
+                month1TV = rs.getInt("Total_Vaccines");
+                month1TVRow.add(month1TV);
+                month1TD = rs.getInt("Total_Distributed");
+                month1TDRow.add(month1TD);
+                month1PV = rs.getInt("People_Vaccinated");
+                month1PVRow.add(month1PV);
+                month1PFV = rs.getInt("People_Fully_Vaccinated");
+                month1PFVRow.add(month1PFV);
+                month1DV = rs.getInt("Daily_Vaccinated");
+                month1DVRow.add(month1DV);
+                System.out.println(month1TV + " " + month1TD + " " + month1PV + " " + month1PFV + " " + month1DV);
+            }
+            
+            ArrayList<Dataset> month1Array = new ArrayList<>();
+            int month1ArraySize = 0;
+            if(month1CasesRow.size() < month1TVRow.size()){
+                month1ArraySize = month1CasesRow.size();
+            } else if (month1CasesRow.size() > month1TVRow.size()){
+                month1ArraySize = month1TVRow.size();
+            } else {
+                month1ArraySize = month1CasesRow.size();
+            }
+            for (int i = 0; i < month1ArraySize; i++){
+                Dataset data = new Dataset();
+                data.setState(state);
+                data.setCases(month1CasesRow.get(i));
+                data.setDeaths(month1DeathsRow.get(i));
+                data.setTotalVac(month1TVRow.get(i));
+                data.setTotalDis(month1TDRow.get(i));
+                data.setPeopleVac(month1PVRow.get(i));
+                data.setPeopleFullyVac(month1PFVRow.get(i));
+                data.setDailyVac(month1DVRow.get(i));
+                month1Array.add(data);
+            }
+            
+            String month2CaDQuery = "SELECT CasesAndDeaths.Cases, CasesAndDeaths.Deaths FROM CasesAndDeaths WHERE CasesAndDeaths.Date LIKE '"+month2+"%' AND CasesAndDeaths.State = '"+state+"'";
+            System.out.println(month2CaDQuery);
+            rs = stmt.executeQuery(month2CaDQuery);
+            ArrayList<Integer> month2CasesRow = new ArrayList<>();
+            ArrayList<Integer> month2DeathsRow = new ArrayList<>();
+            int month2cases = 0; int month2deaths = 0;
+            while(rs.next()){
+                month2cases = rs.getInt("Cases");
+                month2CasesRow.add(month1cases);
+                month2deaths = rs.getInt("Deaths");
+                month2DeathsRow.add(month2deaths);
+                System.out.println(month2cases + " " + month2deaths);
+            }
+            
+            String month2VacQuery = "SELECT VaccineInformation.Total_Vaccines, VaccineInformation.Total_Distributed, VaccineInformation.People_Vaccinated, VaccineInformation.People_Fully_Vaccinated, VaccineInformation.Daily_Vaccinated FROM VaccineInformation WHERE VaccineInformation.Date LIKE '"+month2+"%' AND VaccineInformation.State = '"+state+"'";
+            System.out.println(month2VacQuery);
+            rs = stmt.executeQuery(month2VacQuery);
+            ArrayList<Integer> month2TVRow = new ArrayList<>();
+            ArrayList<Integer> month2TDRow = new ArrayList<>();
+            ArrayList<Integer> month2PVRow = new ArrayList<>();
+            ArrayList<Integer> month2PFVRow = new ArrayList<>();
+            ArrayList<Integer> month2DVRow = new ArrayList<>();
+            int month2TV = 0; int month2TD = 0;
+            int month2PV = 0; int month2PFV = 0;
+            int month2DV = 0;
+            while(rs.next()){
+                month2TV = rs.getInt("Total_Vaccines");
+                month2TVRow.add(month2TV);
+                month2TD = rs.getInt("Total_Distributed");
+                month2TDRow.add(month2TD);
+                month2PV = rs.getInt("People_Vaccinated");
+                month2PVRow.add(month2PV);
+                month2PFV = rs.getInt("People_Fully_Vaccinated");
+                month2PFVRow.add(month2PFV);
+                month2DV = rs.getInt("Daily_Vaccinated");
+                month2DVRow.add(month2DV);
+                System.out.println(month2TV + " " + month2TD + " " + month2PV + " " + month2PFV + " " + month2DV);
+            }
+            
+            ArrayList<Dataset> month2Array = new ArrayList<>();
+            int month2ArraySize = 0;
+            if(month2CasesRow.size() < month2TVRow.size()){
+                month2ArraySize = month2CasesRow.size();
+            } else if (month2CasesRow.size() > month2TVRow.size()){
+                month2ArraySize = month2TVRow.size();
+            } else {
+                month2ArraySize = month2CasesRow.size();
+            }
+            for (int i = 0; i < month2ArraySize; i++){
+                Dataset data = new Dataset();
+                data.setState(state);
+                data.setCases(month2CasesRow.get(i));
+                data.setDeaths(month2DeathsRow.get(i));
+                data.setTotalVac(month2TVRow.get(i));
+                data.setTotalDis(month2TDRow.get(i));
+                data.setPeopleVac(month2PVRow.get(i));
+                data.setPeopleFullyVac(month2PFVRow.get(i));
+                data.setDailyVac(month2DVRow.get(i));
+                month2Array.add(data);
             }
             
             datasetArray = TrendsDataCalculator.calculateTrendsData(month2Array, month1Array);
-        }
+        } //end "Monthly Trends" if
         return datasetArray;
     }
 }
