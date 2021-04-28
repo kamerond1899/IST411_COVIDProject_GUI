@@ -25,6 +25,7 @@ public class DataFrame extends javax.swing.JFrame {
     public DataFrame() {
         initComponents();
         setVisible(true);
+        setResizable(false);
     }
 
     /**
@@ -344,13 +345,41 @@ public class DataFrame extends javax.swing.JFrame {
             } else if (tableColumnsSize == 8) {
                 for (int i = 0; i < tableRows.size(); i++){
                     tableRowsObj[i][0] = tableRows.get(i).getState();
-                    tableRowsObj[i][1] = tableRows.get(i).getCases();
-                    tableRowsObj[i][2] = tableRows.get(i).getDeaths();
-                    tableRowsObj[i][3] = tableRows.get(i).getTotalVac();
-                    tableRowsObj[i][4] = tableRows.get(i).getTotalDis();
-                    tableRowsObj[i][5] = tableRows.get(i).getPeopleVac();
-                    tableRowsObj[i][6] = tableRows.get(i).getPeopleFullyVac();
-                    tableRowsObj[i][7] = tableRows.get(i).getDailyVac();
+                    if (tableRows.get(i).getCases() <= 0){ //if cases are negative or zero, keep sign
+                        tableRowsObj[i][1] = tableRows.get(i).getCases();
+                    } else if (tableRows.get(i).getCases() > 0) { //if cases are positive, add plus sign
+                        tableRowsObj[i][1] = "+"+String.valueOf(tableRows.get(i).getCases());
+                    }
+                    if (tableRows.get(i).getDeaths() <= 0){ //if deaths are negative or zero, keep sign
+                        tableRowsObj[i][2] = tableRows.get(i).getDeaths();
+                    } else if (tableRows.get(i).getDeaths() > 0) { //if deaths are positive, add plus sign
+                        tableRowsObj[i][2] = "+"+String.valueOf(tableRows.get(i).getDeaths());
+                    }
+                    if (tableRows.get(i).getTotalVac() <= 0){ //if totalVacs are negative or zero, keep sign
+                        tableRowsObj[i][3] = tableRows.get(i).getTotalVac();
+                    } else if (tableRows.get(i).getTotalVac() > 0) { //if totalVacs are positive, add plus sign
+                        tableRowsObj[i][3] = "+"+String.valueOf(tableRows.get(i).getTotalVac());
+                    }
+                    if (tableRows.get(i).getTotalDis() <= 0){ //if totalDis are negative or zero, keep sign
+                        tableRowsObj[i][4] = tableRows.get(i).getTotalDis();
+                    } else if (tableRows.get(i).getTotalDis() > 0) { //if totalDis are positive, add plus sign
+                        tableRowsObj[i][4] = "+"+String.valueOf(tableRows.get(i).getTotalDis());
+                    }
+                    if (tableRows.get(i).getPeopleVac() <= 0){ //if peopleVacs are negative or zero, keep sign
+                        tableRowsObj[i][5] = tableRows.get(i).getPeopleVac();
+                    } else if (tableRows.get(i).getPeopleVac() > 0) { //if peopleVacs are positive, add plus sign
+                        tableRowsObj[i][5] = "+"+String.valueOf(tableRows.get(i).getPeopleVac());
+                    }
+                    if (tableRows.get(i).getPeopleFullyVac() <= 0){ //if peopleFullyVacs are negative or zero, keep sign
+                        tableRowsObj[i][6] = tableRows.get(i).getPeopleFullyVac();
+                    } else if (tableRows.get(i).getPeopleFullyVac() > 0) { //if peopleFullyVacs are positive, add plus sign
+                        tableRowsObj[i][6] = "+"+String.valueOf(tableRows.get(i).getPeopleFullyVac());
+                    }
+                    if (tableRows.get(i).getDailyVac() <= 0){ //if dailyVacs are negative or zero, keep sign
+                        tableRowsObj[i][7] = tableRows.get(i).getDailyVac();
+                    } else if (tableRows.get(i).getDailyVac() > 0) { //if dailyVacs are positive, add plus sign
+                        tableRowsObj[i][7] = "+"+String.valueOf(tableRows.get(i).getDailyVac());
+                    }
                 }
                 columnNames[0] = "State";
                 columnNames[1] = "Cases";
