@@ -7,9 +7,13 @@ package GUI;
 
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author RIVER
+/**  
+ * IST 411-001 - Final Project
+ * DataTableModel.java  
+ * Purpose: Used as a model for the GUI's table (stores data into the model, then stores model into table)
+ *  
+ * @author (Lead) River Martinez & Kameron Dangleben 
+ * @version 1.0 5/4/2021
  */
 public class DataTableModel extends AbstractTableModel {
 
