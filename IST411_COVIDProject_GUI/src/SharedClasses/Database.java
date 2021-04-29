@@ -15,16 +15,26 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author RIVER
+/**  
+ * IST 411-001 - Final Project
+ * Database.java  
+ * Purpose: Holds methods to create tables, insert data into those tables, 
+ * pull data from those tables, and delete tables related to COVID-19
+ *  
+ * @author (Lead) River Martinez & Kameron Dangleben 
+ * @version 1.0 5/4/2021
  */
 public class Database {
     
-    public Database() {
+    public Database() { //Database constructor
         
     }
     
+    /**
+     * Purpose: return a Connection object of the COVID-19 database
+     * 
+     * @return Connection
+     */
     public Connection getConnection() {
         Connection con = null;
         
@@ -42,6 +52,11 @@ public class Database {
         return con;
     }
     
+    /**
+     * Purpose: Creates CasesAndDeaths table in the COVID-19 database
+     * 
+     * @throws SQLException 
+     */
     public void createStateTable() throws SQLException {
         
         Connection con = getConnection();
@@ -57,6 +72,11 @@ public class Database {
         con.close();
     }
     
+    /**
+     * Purpose: Creates VaccineInformation table in the COVID-19 database
+     * 
+     * @throws SQLException 
+     */
     public void createVaccineTable() throws SQLException {
         
         Connection con = getConnection();
@@ -75,61 +95,75 @@ public class Database {
         con.close();
     }
     
-        public void insertStateValues(ArrayList<Dataset> s) throws SQLException {
+    /**
+     * Purpose: Inserts values into the CasesAndDeaths table in the COVID-19 database
+     * 
+     * @throws SQLException 
+     */
+    public void insertStateValues(ArrayList<Dataset> s) throws SQLException {
         
         Connection con = getConnection();
-              con.setAutoCommit(true);
-        //Statement stmt = con.createStatement();
-        PreparedStatement statement;
+        con.setAutoCommit(true);
+        
+        PreparedStatement pstmt;
         
         String compiledQuery = "INSERT INTO CasesAndDeaths(Date, State, Cases, Deaths) "
                    + "VALUES"+"(?, ?, ?, ?)";
         
-                statement = con.prepareStatement(compiledQuery);
+                pstmt = con.prepareStatement(compiledQuery);
         for(int i = 0; i < s.size(); i++)
         {
-            statement.setString(1, s.get(i).getDate());
-            statement.setString(2, s.get(i).getState());
-            statement.setInt(3,  s.get(i).getCases());
-            statement.setInt(4,  s.get(i).getDeaths());
+            pstmt.setString(1, s.get(i).getDate());
+            pstmt.setString(2, s.get(i).getState());
+            pstmt.setInt(3,  s.get(i).getCases());
+            pstmt.setInt(4,  s.get(i).getDeaths());
             
-            statement.executeUpdate();
+            pstmt.executeUpdate();
         }
           
-        statement.close();
+        pstmt.close();
         con.close();
     }
     
+    /**
+     * Purpose: Inserts values into the VaccineInformation table in the COVID-19 database
+     * 
+     * @throws SQLException 
+     */
     public void insertVaccineValues(ArrayList<Dataset> v) throws SQLException {
         
-         
         Connection con = getConnection();
-              con.setAutoCommit(true);
-        //Statement stmt = con.createStatement();
-        PreparedStatement statement;
+        con.setAutoCommit(true);
+        
+        PreparedStatement pstmt;
         
         String compiledQuery = "INSERT INTO VaccineInformation(Date, State, Total_Vaccines, Total_Distributed ,People_Vaccinated, People_Fully_Vaccinated, Daily_Vaccinated)"
                    + " VALUES" + "(?, ?, ?, ?, ?, ?, ?)";
         
-                statement = con.prepareStatement(compiledQuery);
+                pstmt = con.prepareStatement(compiledQuery);
         for(int i = 0; i < v.size(); i++)
         {
-            statement.setString(1, v.get(i).getDate());
-            statement.setString(2, v.get(i).getState());
-            statement.setInt(3, v.get(i).getTotalVac());
-            statement.setInt(4, v.get(i).getTotalDis());
-            statement.setInt(5, v.get(i).getPeopleVac());
-            statement.setInt(6, v.get(i).getPeopleFullyVac());
-            statement.setInt(7, v.get(i).getDailyVac());
+            pstmt.setString(1, v.get(i).getDate());
+            pstmt.setString(2, v.get(i).getState());
+            pstmt.setInt(3, v.get(i).getTotalVac());
+            pstmt.setInt(4, v.get(i).getTotalDis());
+            pstmt.setInt(5, v.get(i).getPeopleVac());
+            pstmt.setInt(6, v.get(i).getPeopleFullyVac());
+            pstmt.setInt(7, v.get(i).getDailyVac());
             
-            statement.executeUpdate();
+            pstmt.executeUpdate();
         }
         
         
-        statement.close();
+        pstmt.close();
         con.close();
     }
     
+    /**
+     * Purpose: Deletes the VaccineInformation table (live API) in the COVID-19 database
+     * 
+     * @throws SQLException 
+     */
     public void deleteVaccineTable() throws SQLException {
         
         Connection con = getConnection();
@@ -141,6 +175,15 @@ public class Database {
         con.close();
     }
     
+    /**
+     * Purpose: Pulls rows of data from the COVID-19 database 
+     * based on the selected table type, month(s), and state (All Strings);
+     * The data is stored into an ArrayList<Dataset>, and each
+     * selected table type goes through its own process of 
+     * pulling and storing data into the ArrayList<Dataset>
+     * 
+     * @throws SQLException 
+     */
     public ArrayList<Dataset> selectData(String tableType, String month, String state) throws SQLException {
         
         Connection con = getConnection();
@@ -150,7 +193,7 @@ public class Database {
         ArrayList<Dataset> datasetArray = new ArrayList<>();
         System.out.println(tableType);
         if (tableType.equals("Monthly Cases And Deaths")){ //if State Table is used
-            switch (month) {
+            switch (month) { //Converts letter month and year to number month and year
                 case "January, 2020": month = "2020-01"; break;
                 case "February, 2020": month = "2020-02"; break;
                 case "March, 2020": month = "2020-03"; break;
@@ -170,12 +213,13 @@ public class Database {
                 default: break;
             }
             
+            //Query to view all rows in the CasesAndDeaths table where the date matches the "month" String variable and state matches the "state" String variable
             String query = "SELECT Date, State, Cases, Deaths FROM CasesAndDeaths WHERE Date LIKE '"+month+"%' AND State = '"+state+"'";
             System.out.println(query);
             rs = stmt.executeQuery(query);
             
             Dataset staterow;
-            while(rs.next()) {
+            while(rs.next()) { //Stores each applicable row from the CasesAndDeaths table into a Dataset object, then adds the object to the ArrayList<Dataset> 
                 staterow = new Dataset(
                 rs.getString("Date"),
                 rs.getString("State"),
@@ -185,8 +229,9 @@ public class Database {
             }
             
         }  //end "Monthly Cases And Deaths" if
+        
         if (tableType == "Monthly Vaccine Information"){ //if Vaccine Table is used
-            switch (month) {
+            switch (month) { //Converts letter month and year to number month and year
                 case "January, 2021": month = "2021-01"; break;
                 case "February, 2021": month = "2021-02"; break;
                 case "March, 2021": month = "2021-03"; break;
@@ -194,12 +239,13 @@ public class Database {
                 //case "May, 2021": month = "2021-05"; break;
             }
             
+            //Query to view all rows in the VaccineInformation table where the date matches the "month" String variable and state matches the "state" String variable
             String query = "SELECT Date, State, Total_Vaccines, Total_Distributed, People_Vaccinated, People_Fully_Vaccinated, Daily_Vaccinated FROM VaccineInformation WHERE Date LIKE '"+month+"%' AND State = '"+state+"'";
             System.out.println(query);
             rs = stmt.executeQuery(query);
             
             Dataset vacrow;
-            while(rs.next()) {
+            while(rs.next()) { //Stores each applicable row from the VaccineInformation table into a Dataset object, then adds the object to the ArrayList<Dataset> 
                 vacrow = new Dataset(
                 rs.getString("Date"),
                 rs.getString("State"),
@@ -211,22 +257,24 @@ public class Database {
                 datasetArray.add(vacrow);
             }
         } //end "Monthly Vaccine Information" if
+        
         if (tableType == "Monthly Trends"){ //if Trends Table is used
             String month1 = "";
             String month2 = "";
-            switch (month) {
+            switch (month) { //Converts letter month and year to number month and year
                 case "January-February, 2021": month1 = "2021-01"; month2 = "2021-02"; break;
                 case "February-March, 2021": month1 = "2021-02"; month2 = "2021-03"; break;
                 case "March-April, 2021": month1 = "2021-03"; month2 = "2021-04";break;
             }
             
+            //Query to view all rows in the CasesAndDeaths table where the date matches the "month1" String variable and state matches the "state" String variable
             String month1CaDQuery = "SELECT CasesAndDeaths.Cases, CasesAndDeaths.Deaths FROM CasesAndDeaths WHERE CasesAndDeaths.Date LIKE '"+month1+"%' AND CasesAndDeaths.State = '"+state+"'";
             System.out.println(month1CaDQuery);
             rs = stmt.executeQuery(month1CaDQuery);
             ArrayList<Integer> month1CasesRow = new ArrayList<>();
             ArrayList<Integer> month1DeathsRow = new ArrayList<>();
             int month1cases = 0; int month1deaths = 0;
-            while(rs.next()){
+            while(rs.next()){ //Stores each row (cases and deaths data) into their respective ArrayList<Integer> for the 1st month
                 month1cases = rs.getInt("Cases");
                 month1CasesRow.add(month1cases);
                 month1deaths = rs.getInt("Deaths");
@@ -234,6 +282,7 @@ public class Database {
                 System.out.println(month1cases + " " + month1deaths);
             }
             
+            //Query to view all rows in the VaccineInformation table where the date matches the "month1" String variable and state matches the "state" String variable
             String month1VacQuery = "SELECT VaccineInformation.Total_Vaccines, VaccineInformation.Total_Distributed, VaccineInformation.People_Vaccinated, VaccineInformation.People_Fully_Vaccinated, VaccineInformation.Daily_Vaccinated FROM VaccineInformation WHERE VaccineInformation.Date LIKE '"+month1+"%' AND VaccineInformation.State = '"+state+"'";
             System.out.println(month1VacQuery);
             rs = stmt.executeQuery(month1VacQuery);
@@ -245,7 +294,7 @@ public class Database {
             int month1TV = 0; int month1TD = 0;
             int month1PV = 0; int month1PFV = 0;
             int month1DV = 0;
-            while(rs.next()){
+            while(rs.next()){ //Stores each row (totalVac, totalDis, peopleVac, peopleFullyVac, and dailyVac data) into their respective ArrayList<Integer> for the 1st month
                 month1TV = rs.getInt("Total_Vaccines");
                 month1TVRow.add(month1TV);
                 month1TD = rs.getInt("Total_Distributed");
@@ -261,6 +310,8 @@ public class Database {
             
             ArrayList<Dataset> month1Array = new ArrayList<>();
             int month1ArraySize = 0;
+            //if & else-if statements to determine the size of 1st month ArrayList<Dataset>
+            //The lowest ArrayList<Integer> size sets the size of ArrayList<Dataset> to prevent an out of bounds exception
             if(month1CasesRow.size() < month1TVRow.size()){
                 month1ArraySize = month1CasesRow.size();
             } else if (month1CasesRow.size() > month1TVRow.size()){
@@ -268,6 +319,7 @@ public class Database {
             } else {
                 month1ArraySize = month1CasesRow.size();
             }
+            //Loop through each ArrayList<Integer> for 1st month, storing the data into the Dataset object, then adding the object to ArrayList<Dataset>
             for (int i = 0; i < month1ArraySize; i++){
                 Dataset data = new Dataset();
                 data.setState(state);
@@ -281,13 +333,14 @@ public class Database {
                 month1Array.add(data);
             }
             
+            //Query to view all rows in the CasesAndDeaths table where the date matches the "month2" String variable and state matches the "state" String variable
             String month2CaDQuery = "SELECT CasesAndDeaths.Cases, CasesAndDeaths.Deaths FROM CasesAndDeaths WHERE CasesAndDeaths.Date LIKE '"+month2+"%' AND CasesAndDeaths.State = '"+state+"'";
             System.out.println(month2CaDQuery);
             rs = stmt.executeQuery(month2CaDQuery);
             ArrayList<Integer> month2CasesRow = new ArrayList<>();
             ArrayList<Integer> month2DeathsRow = new ArrayList<>();
             int month2cases = 0; int month2deaths = 0;
-            while(rs.next()){
+            while(rs.next()){ //Stores each row (cases and deaths data) into their respective ArrayList<Integer> for the 2nd month
                 month2cases = rs.getInt("Cases");
                 month2CasesRow.add(month1cases);
                 month2deaths = rs.getInt("Deaths");
@@ -295,6 +348,7 @@ public class Database {
                 System.out.println(month2cases + " " + month2deaths);
             }
             
+            //Query to view all rows in the VaccineInformation table where the date matches the "month2" String variable and state matches the "state" String variable
             String month2VacQuery = "SELECT VaccineInformation.Total_Vaccines, VaccineInformation.Total_Distributed, VaccineInformation.People_Vaccinated, VaccineInformation.People_Fully_Vaccinated, VaccineInformation.Daily_Vaccinated FROM VaccineInformation WHERE VaccineInformation.Date LIKE '"+month2+"%' AND VaccineInformation.State = '"+state+"'";
             System.out.println(month2VacQuery);
             rs = stmt.executeQuery(month2VacQuery);
@@ -306,7 +360,7 @@ public class Database {
             int month2TV = 0; int month2TD = 0;
             int month2PV = 0; int month2PFV = 0;
             int month2DV = 0;
-            while(rs.next()){
+            while(rs.next()){ //Stores each row (totalVac, totalDis, peopleVac, peopleFullyVac, and dailyVac data) into their respective ArrayList<Integer> for the 2nd month
                 month2TV = rs.getInt("Total_Vaccines");
                 month2TVRow.add(month2TV);
                 month2TD = rs.getInt("Total_Distributed");
@@ -322,6 +376,8 @@ public class Database {
             
             ArrayList<Dataset> month2Array = new ArrayList<>();
             int month2ArraySize = 0;
+            //if & else-if statements to determine the size of 2nd month ArrayList<Dataset>
+            //The lowest ArrayList<Integer> size sets the size of ArrayList<Dataset> to prevent an out of bounds exception
             if(month2CasesRow.size() < month2TVRow.size()){
                 month2ArraySize = month2CasesRow.size();
             } else if (month2CasesRow.size() > month2TVRow.size()){
@@ -329,6 +385,7 @@ public class Database {
             } else {
                 month2ArraySize = month2CasesRow.size();
             }
+            //Loop through each ArrayList<Integer> for 2nd month, storing the data into the Dataset object, then adding the object to ArrayList<Dataset>
             for (int i = 0; i < month2ArraySize; i++){
                 Dataset data = new Dataset();
                 data.setState(state);
@@ -342,6 +399,9 @@ public class Database {
                 month2Array.add(data);
             }
             
+            //Once both ArrayList<Dataset> for month1 (previous month) and month2 (selected month), 
+            //convert them into one ArrayList<Dataset> with the trends between the months
+            //(Ex. determine whether COVID-19 cases are increasing, decreasing, or staying the same)
             datasetArray = TrendsDataCalculator.calculateTrendsData(month2Array, month1Array);
         } //end "Monthly Trends" if
         return datasetArray;
