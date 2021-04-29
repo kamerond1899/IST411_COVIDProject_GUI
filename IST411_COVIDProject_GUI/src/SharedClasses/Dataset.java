@@ -7,23 +7,27 @@ package SharedClasses;
 
 import java.io.Serializable;
 
-/**
- *
- * @author RIVER
+/**  
+ * IST 411-001 - Final Project
+ * Dataset.java  
+ * Purpose: Used to store state, vaccine, and trends data 
+ *  
+ * @author (Lead) River Martinez & Kameron Dangleben 
+ * @version 1.0 5/4/2021
  */
 public class Dataset implements Serializable{
     
-    private String date;
-    private String state;
-    private int cases;
-    private int deaths;
-    private int totalVac;
-    private int totalDis;
-    private int peopleVac;
-    private int peopleFullyVac;
-    private int dailyVac;
-    private int constructorFlag;
-    
+    private String date;            //Date
+    private String state;           //State
+    private int cases;              //Number of COVID-related cases
+    private int deaths;             //Number of COVID-related deaths
+    private int totalVac;           //Total number of vaccines created
+    private int totalDis;           //Total number of vaccines distributed
+    private int peopleVac;          //Total number of people vaccinated
+    private int peopleFullyVac;     //Total number of people fully vaccinated
+    private int dailyVac;           //Number of vaccinations per day
+    private int constructorFlag;    //Flag variable for determining the type of constructor in use
+            
     public Dataset(){ //zero argument constructor
         this.constructorFlag = 1;
         this.state = null;
