@@ -7,27 +7,54 @@ package GUI;
 
 import SharedClasses.Database;
 import SharedClasses.Dataset;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 
-/**
- *
- * @author RIVER
+/**  
+ * IST 411-001 - Final Project
+ * DataFrame.java  
+ * Purpose: Allows data to be visible on screen via GUI components
+ *  
+ * @author (Lead) River Martinez & Kameron Dangleben 
+ * @version 1.0 5/4/2021
  */
 public class DataFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form DataFrame
      */
-    public DataFrame() {
+    public DataFrame() { //DataFrame constructor
         initComponents();
         setVisible(true);
         setResizable(false);
+        deleteVaccineTableOnClose();
+        
     }
 
+    /**
+     * Purpose: Uses a WindowListener to delete the VaccineInformation table once the GUI is exited
+     */
+    private void deleteVaccineTableOnClose() {
+        addWindowListener(new WindowAdapter() 
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                try {
+                    new Database().deleteVaccineTable();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DataFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -253,9 +280,16 @@ public class DataFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void monthComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthComboActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_monthComboActionPerformed
-
+    
+    /**
+     * Purpose: ActionListener for tableTypeComboBox. 
+     * If tableTypeCombo is set to "Monthly Cases And Deaths", update monthCombo Jan,2020-April,2021
+     * If tableTypeCombo is set to "Monthly Vaccine Information", update monthCombo Jan,2021-April,2021
+     * If tableTypeCombo is set to "Monthly Trends", update monthCombo Jan-Feb,2021-Mar-April,2021
+     * 
+     * @param evt 
+     */
     private void tableTypeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableTypeComboActionPerformed
         monthCombo.removeAllItems();
         if ("Monthly Cases And Deaths".equals(String.valueOf(tableTypeCombo.getSelectedItem()))){
@@ -288,16 +322,25 @@ public class DataFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tableTypeComboActionPerformed
 
+    /**
+     * Purpose: ActionListener for update "Go" button.
+     * 
+     * @param evt 
+     */
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        Database db = new Database();
+        Database db = new Database(); //Database object to use selectData(String, String, String)
         try {
+            //Instantiation of ArrayList<Dataset> "tableRows"
             ArrayList<Dataset> tableRows = new ArrayList<Dataset>();
+            
+            //Sets tableRows from Database.selectData(String, String, String)
             tableRows = db.selectData(String.valueOf(tableTypeCombo.getSelectedItem())
                                      ,String.valueOf(monthCombo.getSelectedItem())
                                      ,String.valueOf(stateCombo.getSelectedItem()));
             
             int tableColumnsSize = 0;
             
+            //If & else-if statements to determine the column size of the table based on the constructor flag
             System.out.println("test");
             if (tableRows.get(0).getConstructorFlag() == 1) {
                 tableColumnsSize = 0;
@@ -309,9 +352,11 @@ public class DataFrame extends javax.swing.JFrame {
                 tableColumnsSize = 8;
             }
             
+            //2D Object array and String array used to create table model for JTable
             Object[][] tableRowsObj = new Object[tableRows.size()][tableColumnsSize];
             String[] columnNames = new String[tableColumnsSize];
             
+            //Based on column size, store data into 2D Object array and set String array
             if (tableColumnsSize == 4) {
                 for (int i = 0; i < tableRows.size(); i++){
                     tableRowsObj[i][0] = tableRows.get(i).getDate();
@@ -391,6 +436,7 @@ public class DataFrame extends javax.swing.JFrame {
                 columnNames[7] = "Daily Vaccinated";
             }
            
+            //Sets table model by using 2D Object array and String array as parameters
             DataTableModel tableModel = new DataTableModel(columnNames, tableRowsObj){
                 @Override
                 public boolean isCellEditable(int row, int column){
@@ -399,12 +445,15 @@ public class DataFrame extends javax.swing.JFrame {
             };
             dataTable.setModel(tableModel);
             
+            //Configure row height and column width
             dataTable.setRowHeight(50);
             for(int i = 0; i < tableColumnsSize; i++){
                 dataTable.getColumnModel().getColumn(i).setPreferredWidth(150);
             }
             
+            //Centers table cells
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
             dataTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
             dataTable.setDefaultRenderer(String.class, centerRenderer);
             dataTable.setDefaultRenderer(Integer.class, centerRenderer);
