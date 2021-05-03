@@ -33,8 +33,18 @@ public class DataFrame extends javax.swing.JFrame {
         initComponents();
         setVisible(true);
         setResizable(false);
+        setLocationRelativeTo(null);
         deleteVaccineTableOnClose();
-        
+        dataTable.setFont(new java.awt.Font("Verdana", 1, 11));
+        dataTable.setForeground(new java.awt.Color(38,172,235));
+        dataTable.getTableHeader().setBackground(new java.awt.Color(38,172,235));
+        dataTable.getTableHeader().setForeground(new java.awt.Color(255,255,255));
+        dataTable.getTableHeader().setFont(new java.awt.Font("Verdana", 1, 11));
+        dataTable.setToolTipText("<html>"
+                                    + "This area is where<br>"
+                                    + "the data will be displayed"
+                                +"</html>");
+        pack();
     }
 
     /**
@@ -98,29 +108,40 @@ public class DataFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
 
-        jPanel3.setBackground(new java.awt.Color(0, 102, 0));
-        jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(102, 255, 102)));
+        jPanel3.setBackground(new java.awt.Color(38, 172, 235));
+        jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 255)));
+        jPanel3.setToolTipText("");
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        comboPanel.setBackground(new java.awt.Color(0, 204, 0));
+        comboPanel.setBackground(new java.awt.Color(153, 153, 255));
         comboPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboPanel.setForeground(new java.awt.Color(255, 255, 255));
 
-        jPanel5.setBackground(new java.awt.Color(0, 204, 0));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filters:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(102, 255, 102))); // NOI18N
+        jPanel5.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filters:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel5.setToolTipText("");
+        jPanel5.setAutoscrolls(true);
 
         tableTypeLabel.setBackground(new java.awt.Color(255, 255, 255));
+        tableTypeLabel.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
+        tableTypeLabel.setForeground(new java.awt.Color(255, 255, 255));
         tableTypeLabel.setText("Table Type:");
 
         monthLabel.setBackground(new java.awt.Color(255, 255, 255));
+        monthLabel.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
+        monthLabel.setForeground(new java.awt.Color(255, 255, 255));
         monthLabel.setText("Month:");
 
         stateLabel.setBackground(new java.awt.Color(255, 255, 255));
+        stateLabel.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
+        stateLabel.setForeground(new java.awt.Color(255, 255, 255));
         stateLabel.setText("State:");
 
-        updateButton.setBackground(new java.awt.Color(0, 102, 0));
-        updateButton.setForeground(new java.awt.Color(255, 255, 255));
+        updateButton.setBackground(new java.awt.Color(255, 255, 255));
+        updateButton.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
+        updateButton.setForeground(new java.awt.Color(38, 172, 235));
         updateButton.setText("Go");
+        updateButton.setToolTipText("<html>\nThis button updates<br>\nthe table below after<br> \nthe proper filters are made.\n</html>");
         updateButton.setFocusable(false);
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,7 +149,11 @@ public class DataFrame extends javax.swing.JFrame {
             }
         });
 
+        tableTypeCombo.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
+        tableTypeCombo.setForeground(new java.awt.Color(38, 172, 235));
         tableTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Monthly Cases And Deaths", "Monthly Vaccine Information", "Monthly Trends" }));
+        tableTypeCombo.setToolTipText("<html>\nThis combo box allows users<br>\nto filter through three tables:<br>\n -Monthly Cases And Deaths,<br>\n -Monthly Vaccine Information,<br>\n -Monthly Trends.\n</html>");
+        tableTypeCombo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tableTypeCombo.setFocusable(false);
         tableTypeCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,9 +161,15 @@ public class DataFrame extends javax.swing.JFrame {
             }
         });
 
+        stateCombo.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
+        stateCombo.setForeground(new java.awt.Color(38, 172, 235));
         stateCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming" }));
+        stateCombo.setToolTipText("<html>\nThis combo box allows users<br>\n to filter the state, in which<br>\nthe data displayed will only b<br>\nfor that state.\n</html>");
         stateCombo.setFocusable(false);
 
+        monthCombo.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
+        monthCombo.setForeground(new java.awt.Color(38, 172, 235));
+        monthCombo.setToolTipText("<html>\nThis combo box allows users<br>\nto filter the month, in which<br>\nthe data displayed will only be<br> \nretrieved from that month period.\n</html>");
         monthCombo.setFocusable(false);
         monthCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,7 +189,7 @@ public class DataFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(monthLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(monthCombo, 0, 181, Short.MAX_VALUE)
+                .addComponent(monthCombo, 0, 145, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(stateLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -201,12 +232,13 @@ public class DataFrame extends javax.swing.JFrame {
 
         jPanel3.add(comboPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 840, 120));
 
-        tablePanel.setBackground(new java.awt.Color(51, 153, 0));
+        tablePanel.setBackground(new java.awt.Color(255, 255, 255));
         tablePanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jPanel4.setBackground(new java.awt.Color(51, 153, 0));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(102, 255, 102))); // NOI18N
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 1, 11), new java.awt.Color(38, 172, 235))); // NOI18N
 
+        scrollPane.setForeground(new java.awt.Color(38, 172, 235));
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -238,8 +270,8 @@ public class DataFrame extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout tablePanelLayout = new javax.swing.GroupLayout(tablePanel);
@@ -265,9 +297,7 @@ public class DataFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 865, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 865, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -448,7 +478,13 @@ public class DataFrame extends javax.swing.JFrame {
             //Configure row height and column width
             dataTable.setRowHeight(50);
             for(int i = 0; i < tableColumnsSize; i++){
-                dataTable.getColumnModel().getColumn(i).setPreferredWidth(150);
+                if (tableColumnsSize == 4){
+                    dataTable.getColumnModel().getColumn(i).setPreferredWidth(189);
+                } else if (tableColumnsSize == 7){
+                    dataTable.getColumnModel().getColumn(i).setPreferredWidth(165);
+                } else if (tableColumnsSize == 8){
+                    dataTable.getColumnModel().getColumn(i).setPreferredWidth(165);
+                }
             }
             
             //Centers table cells
