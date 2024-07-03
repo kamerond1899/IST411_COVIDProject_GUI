@@ -7,3 +7,5 @@ API Calls
 
 API Call fetches new york times Covid data by state(as of 2020), stores them in SQL database(Local) and app displays meaningful transofmative data based on selected datasets(State, statistic, month) 
 on a locally run webpage in HTML/Javascript/CSS!
+
+Requires glassfish or another local SQL server solution to work!
